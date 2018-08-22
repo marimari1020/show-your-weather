@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>あなたの地域のお天気</title>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script> 
+<link rel="stylesheet" href="weather.css">
+</head>
+<body>
+
+
+
+<script>
+ $(document).ready(function() {
+
+ 
+   $.getJSON("http://api.openweathermap.org/data/2.5/weather?q=Tokyo,jp&appid=cc05750ba50400f27ebabbcd6f4c4976", 
+   {
+     lang: "ja",
+        units:"metric"
+    },
+    function(json){
+        console.log(json)
+     //   $("#country").html(json.sys.country);
+       $("#weather").html(json.weather[0].main);
+       $("#temp").html(json.main.temp);
+
+
+
+   switch (json.weather[0].main){
+        case 'Clouds':
+        $("#weatherMark").html("<img src='http://openweathermap.org/img/w/04d.png' >");
+        $("#weather").html("くもり");
+        break;
+        case 'Snow':
+        $("#weatherMark").html("<img src='http://openweathermap.org/img/w/13d.png' >");
+        $("#weather").html("雪");
+        break;
+        case 'Rain':
+        $("#weatherMark").html("<img src='http://openweathermap.org/img/w/09d.png' >");
+        $("#weather").html("雨");
+        break;
+        case 'clear':
+        $("#weatherMark").html("<img src='http://openweathermap.org/img/w/01d.png' >");
+        $("#weather").html("晴れ");
+        break;
+        case 'Fog':
+        $("#weatherMark").html("<img src='http://openweathermap.org/img/w/50d.png' >");
+        $("#weather").html("霧");
+        break;
+        case 'Mist':
+        $("#weatherMark").html("<img src='http://openweathermap.org/img/w/50n.png' >");
+        $("#weather").html("霧雨");
+        break;
+    }
+
+
+
+
+       }
+    );
+     });
+
+
+
+</script>
+
+
+    <h1>東京のお天気は？</h1>
+<div><span id = "weather"></span></div>
+<div><span id = "weatherMark"></span></div>
+<p id="icon"></p>
+<div>気温　<span id = "temp" ></span>　℃</div>
+<div>
+
+</div>
+</body>
+
+
+
+
+
