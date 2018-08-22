@@ -6,76 +6,93 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script> 
+<script src='https://use.fontawesome.com/releases/v5.0.13/js/all.js'></script>
 <link rel="stylesheet" href="weather.css">
 </head>
 <body>
-
+    <div class="container">
+    <h1>各地のお天気は？</h1>
+    <div>
+        <h2>都市の選択</h2>
+        <input type="radio" id="cityRadio" name="cityRadio" value="1850147">Tokyo</input>
+        <input type="radio" id="cityRadio" name="cityRadio" value="7839805">Melbourne</input>
+        <input type="radio" id="cityRadio" name="cityRadio" value="1261481">New Delhi</input>
+        <input type="radio" id="cityRadio" name="cityRadio" value="292968">Abu Dhabi</input>
+        <input type="radio" id="cityRadio" name="cityRadio" value="524901">Moscow</input>
+        <input type="radio" id="cityRadio" name="cityRadio" value="2643743">London</input>
+        <input type="radio" id="cityRadio" name="cityRadio" value="2172797">Cairns</input>
+        <button id="submit"><i class="fas fa-paper-plane"></i>  Click</button>
+    </div> 
+    <div class="weatherMain"> 
+        <h2>現在の天気は</h2>
+        <div><span id = "weather" class="bold"></span></div>
+        <div><span id = "weatherMark" class="bold"></span></div>
+        <p id="icon"></p>
+    </div>
+        <div>気温　<span id = "temp"  class="bold"></span>　℃</div>
+        <div>湿度　<span id = "humidity" class="bold"></span>　%</div>
+ 
+</div>
 
 
 <script>
  $(document).ready(function() {
+  //  id = 7839805;
+  //id = input[id='cityRadio']:checked;
 
+
+$("#submit").click(function (e) {
  
-   $.getJSON("http://api.openweathermap.org/data/2.5/weather?q=Tokyo,jp&appid=cc05750ba50400f27ebabbcd6f4c4976", 
-   {
-     lang: "ja",
-        units:"metric"
-    },
+$.post("http://api.openweathermap.org/data/2.5/weather?id=" + $("input[id='cityRadio']:checked").val() + "&appid=cc05750ba50400f27ebabbcd6f4c4976",  
+
     function(json){
-        console.log(json)
-     //   $("#country").html(json.sys.country);
-       $("#weather").html(json.weather[0].main);
-       $("#temp").html(json.main.temp);
+        $("#weather").html(json.weather[0].main);
+        $("#humidity").html(json.main.humidity);
 
-
-
-   switch (json.weather[0].main){
-        case 'Clouds':
-        $("#weatherMark").html("<img src='http://openweathermap.org/img/w/04d.png' >");
-        $("#weather").html("くもり");
-        break;
-        case 'Snow':
-        $("#weatherMark").html("<img src='http://openweathermap.org/img/w/13d.png' >");
-        $("#weather").html("雪");
-        break;
-        case 'Rain':
-        $("#weatherMark").html("<img src='http://openweathermap.org/img/w/09d.png' >");
-        $("#weather").html("雨");
-        break;
-        case 'clear':
-        $("#weatherMark").html("<img src='http://openweathermap.org/img/w/01d.png' >");
-        $("#weather").html("晴れ");
-        break;
-        case 'Fog':
-        $("#weatherMark").html("<img src='http://openweathermap.org/img/w/50d.png' >");
-        $("#weather").html("霧");
-        break;
-        case 'Mist':
-        $("#weatherMark").html("<img src='http://openweathermap.org/img/w/50n.png' >");
-        $("#weather").html("霧雨");
-        break;
+        var celsius = Math.round(json.main.temp - 273.15);
+        $("#temp").html(celsius);
+    
+        switch (json.weather[0].main){
+            case 'Clouds':
+            $("#weatherMark").html("<img src='http://openweathermap.org/img/w/04d.png' >");
+            $("#weather").html("くもり");
+            break;
+            case 'Snow':
+            $("#weatherMark").html("<img src='http://openweathermap.org/img/w/13d.png' >");
+            $("#weather").html("雪");
+            break;
+            case 'Rain':
+            $("#weatherMark").html("<img src='http://openweathermap.org/img/w/09d.png' >");
+            $("#weather").html("雨");
+            break;
+            case 'Clear':
+            $("#weatherMark").html("<img src='http://openweathermap.org/img/w/01d.png' >");
+            $("#weather").html("晴れ");
+            break;
+            case 'Fog':
+            $("#weatherMark").html("<img src='http://openweathermap.org/img/w/50d.png' >");
+            $("#weather").html("霧");
+            break;
+            case 'Mist':
+            $("#weatherMark").html("<img src='http://openweathermap.org/img/w/50n.png' >");
+            $("#weather").html("霧雨");
+            break;
+            case 'Haze':
+            $("#weatherMark").html("<img src='http://openweathermap.org/img/w/50d.png' >");
+            $("#weather").html("薄霧");
+            break;
+            default:
+            $("#weatherMark").html("<img src='http://openweathermap.org/img/w/01n.png' >");
+        }
     }
 
+);
 
-
-
-       }
-    );
-     });
-
-
+});
+});
 
 </script>
 
-
-    <h1>東京のお天気は？</h1>
-<div><span id = "weather"></span></div>
-<div><span id = "weatherMark"></span></div>
-<p id="icon"></p>
-<div>気温　<span id = "temp" ></span>　℃</div>
-<div>
-
-</div>
 </body>
 
 

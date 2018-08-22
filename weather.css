@@ -8,7 +8,20 @@ img{
     width: 100px;
 }
 
-div{
-    font-size: 2em;
+.container{
+    padding-left: 20%;
+    padding-right: 20%;
+}
+input {
+    margin: 2%;
+}
 
+#submit{
+    margin-left: 10px;
+    
+}
+
+.bold{
+    font-weight: bold;
+    font-size: 1.5em;
 }
